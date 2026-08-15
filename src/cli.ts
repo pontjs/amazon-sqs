@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @author pontx-generator
  * @description Safety-first local CLI for the generated Amazon SQS SDK.
