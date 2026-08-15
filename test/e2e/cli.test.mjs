@@ -15,9 +15,10 @@ describe("built CLI", () => {
     const lock = JSON.parse(readFileSync(new URL("../../dist/bin/api-lock.json", import.meta.url), "utf8"));
     assert.equal(lock.style, "RPC");
     assert.equal(Object.keys(lock.apis).length, 23);
-    assert.equal(Object.hasOwn(lock.apis, "ListQueues"), true);
-    assert.equal(Object.hasOwn(lock.apis.ListQueues, "method"), false);
-    assert.equal(Object.hasOwn(lock.apis.ListQueues, "path"), false);
+    assert.equal(Object.hasOwn(lock.apis, "listQueues"), true);
+    assert.equal(lock.apis.listQueues.operationId, "ListQueues");
+    assert.equal(Object.hasOwn(lock.apis.listQueues, "method"), false);
+    assert.equal(Object.hasOwn(lock.apis.listQueues, "path"), false);
   });
 
   it("is directly executable as a Node CLI", () => {
