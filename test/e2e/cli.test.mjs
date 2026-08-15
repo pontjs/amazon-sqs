@@ -22,7 +22,8 @@ describe("built CLI", () => {
     assert.equal(preview.status, 0, preview.stderr);
     const parsed = JSON.parse(preview.stdout);
     assert.equal(parsed.input.MessageBody, "[REDACTED]");
-    assert.match(parsed.confirmationToken, /^ptx1_[a-f0-9]{64}$/);
+    assert.match(parsed.confirmationToken, /^ptx1_\d{13}_[a-f0-9]{64}$/);
+    assert.match(parsed.confirmationExpiresAt, /^\d{4}-\d{2}-\d{2}T/);
 
     const denied = run("call", "SendMessage", "--input", input);
     assert.equal(denied.status, 1);

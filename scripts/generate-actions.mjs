@@ -3,13 +3,11 @@
  * @description Generate the SDK action facade from the pinned AWS Smithy model.
  */
 
-import { createHash } from "node:crypto";
-import { execFile } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
-import { promisify } from "node:util";
 
-const execFileAsync = promisify(execFile);
 const lock = JSON.parse(await readFile(new URL("../contract/sqs.lock.json", import.meta.url), "utf8"));
+const pontxLock = JSON.parse(await readFile(new URL("../contract/pontx.lock.json", import.meta.url), "utf8"));
+const canonical = JSON.parse(await readFile(new URL("../contract/spec.pontx.json", import.meta.url), "utf8"));
 const outputUrl = new URL("../src/generated/actions.ts", import.meta.url);
 const write = process.argv.includes("--write");
 const check = process.argv.includes("--check");
@@ -18,26 +16,16 @@ if (write === check) {
   throw new Error("Use exactly one of --write or --check");
 }
 
-const { stdout } = await execFileAsync("curl", ["--fail", "--location", "--silent", "--show-error", lock.source], {
-  encoding: "utf8",
-  maxBuffer: 4 * 1024 * 1024,
-});
-const sourceText = stdout;
-const sourceHash = createHash("sha256").update(sourceText).digest("hex");
-if (sourceHash !== lock.sha256) {
-  throw new Error(`Pinned Smithy SHA-256 mismatch: expected ${lock.sha256}, received ${sourceHash}`);
+if (canonical.pontx !== pontxLock.canonicalSpec.pontx || canonical.style !== "RPC") {
+  throw new Error("Canonical PontxSpec identity is invalid");
 }
-
-const model = JSON.parse(sourceText);
-const service = model.shapes?.[lock.serviceId];
-if (service?.type !== "service") throw new Error(`Missing Smithy service ${lock.serviceId}`);
-const actions = (service.operations ?? [])
-  .map((operation) => String(operation.target ?? "").split("#").at(-1))
-  .filter(Boolean)
+const actions = Object.values(canonical.apis ?? [])
+  .map((api) => api.operationId)
+  .filter((operationId) => typeof operationId === "string")
   .sort();
 const expected = [...lock.operations].sort();
 if (JSON.stringify(actions) !== JSON.stringify(expected)) {
-  throw new Error(`Pinned SQS action list drifted: expected ${expected.length}, received ${actions.length}`);
+  throw new Error(`Canonical SQS action list drifted: expected ${expected.length}, received ${actions.length}`);
 }
 
 function methodName(action) {

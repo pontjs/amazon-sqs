@@ -1,7 +1,7 @@
 {
   "name": "@pontx/amazon-sqs",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "packageManager": "pnpm@10.22.0",
   "description": "Type-safe Amazon SQS SDK and safety-first CLI generated from a pinned AWS Smithy contract",
   "license": "MIT",
@@ -18,11 +18,12 @@
   },
   "files": [
     "dist",
+    "contract",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md"
   ],
   "bin": {
-    "pontx-amazon-sqs": "./dist/bin/cli.cjs"
+    "pontx-amazon-sqs": "dist/bin/cli.cjs"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts && tsup src/cli.ts --format cjs --out-dir dist/bin",
@@ -32,7 +33,8 @@
     "test": "vitest run test/unit",
     "test:e2e": "node --test test/e2e/*.test.mjs",
     "quality": "pnpm contract:verify && pnpm generate:check && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
-    "prepublishOnly": "pnpm quality"
+    "release:verify": "pnpm quality && node scripts/verify-release.mjs",
+    "prepublishOnly": "pnpm release:verify"
   },
   "keywords": [
     "amazon",
@@ -59,6 +61,7 @@
     "@aws-sdk/client-sqs": "3.1111.0"
   },
   "devDependencies": {
+    "@pontx/spec": "1.0.0-beta.6",
     "@types/node": "^22.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.8.0",
