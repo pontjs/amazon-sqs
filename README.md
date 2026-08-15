@@ -13,9 +13,12 @@ direct HTTP calls; this SDK deliberately uses the official AWS JSON runtime.
 ## Status
 
 Release candidate only. It is not published to npm and Amazon SQS is not yet a
-Pontx Hub catalog API. The public catalog will be updated only after its RPC
-documentation, SDK/CLI release evidence, and production verification are all
-complete.
+Pontx Hub catalog API. The SDK mirrors the raw bytes of the canonical
+`products/amazon-sqs/spec.pontx.json` from metadata commit
+`d24224857ed1c87e7ba92ba333742d980e44c977`; its SHA-256 is
+`47fe17acd3e47cf6ef7af669e9ec0e4b8bd308aaccff31ee5e15ee1c5b50687f`.
+The public catalog will be updated only after the registry package, SDK/CLI
+release evidence, and production verification are all complete.
 
 ## SDK
 
@@ -41,8 +44,9 @@ pnpm exec pontx-amazon-sqs preview SendMessage \
 ```
 
 The preview redacts message bodies and credential-like keys. To run any action,
-pass the exact preview's confirmation token to `call`; the token changes if the
-action or input changes.
+pass the exact preview's confirmation token to `call`; it is bound to the
+action and input, and expires after five minutes. `ReceiveMessage` is shown as
+a stateful read because it changes message visibility.
 
 ## Contract provenance
 

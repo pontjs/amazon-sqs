@@ -7,7 +7,9 @@ import { Readable } from "node:stream";
 import { describe, expect, it } from "vitest";
 import {
   amazonSqsActionNames,
+  AMAZON_SQS_CONFIRMATION_TTL_MS,
   buildAmazonSqsPreview,
+  classifyAmazonSqsAction,
   createAmazonSqsClient,
   hasValidAmazonSqsConfirmation,
 } from "../../src/index.js";
@@ -19,17 +21,26 @@ describe("Amazon SQS generated SDK", () => {
     expect(amazonSqsActionNames).toContain("PurgeQueue");
   });
 
-  it("redacts sensitive preview fields and binds confirmation to exact input", () => {
+  it("redacts sensitive preview fields and binds a short-lived confirmation to exact input", () => {
     const input = { QueueUrl: "https://sqs.us-east-1.amazonaws.com/123456789012/example", MessageBody: "private" };
-    const preview = buildAmazonSqsPreview("SendMessage", input);
+    const issuedAt = 1_700_000_000_000;
+    const preview = buildAmazonSqsPreview("SendMessage", input, issuedAt);
 
     expect(preview.classification).toBe("mutation");
     expect(preview.input).toEqual({
       QueueUrl: "https://sqs.us-east-1.amazonaws.com/123456789012/example",
       MessageBody: "[REDACTED]",
     });
-    expect(hasValidAmazonSqsConfirmation("SendMessage", input, preview.confirmationToken)).toBe(true);
-    expect(hasValidAmazonSqsConfirmation("SendMessage", { ...input, MessageBody: "changed" }, preview.confirmationToken)).toBe(false);
+    expect(preview.confirmationExpiresAt).toBe(new Date(issuedAt + AMAZON_SQS_CONFIRMATION_TTL_MS).toISOString());
+    expect(hasValidAmazonSqsConfirmation("SendMessage", input, preview.confirmationToken, issuedAt + 1)).toBe(true);
+    expect(hasValidAmazonSqsConfirmation("SendMessage", { ...input, MessageBody: "changed" }, preview.confirmationToken, issuedAt + 1)).toBe(false);
+    expect(hasValidAmazonSqsConfirmation("SendMessage", input, preview.confirmationToken, issuedAt + AMAZON_SQS_CONFIRMATION_TTL_MS + 1)).toBe(false);
+  });
+
+  it("classifies ReceiveMessage as a stateful read", () => {
+    expect(classifyAmazonSqsAction("ListQueues")).toBe("read");
+    expect(classifyAmazonSqsAction("ReceiveMessage")).toBe("stateful-read");
+    expect(classifyAmazonSqsAction("PurgeQueue")).toBe("mutation");
   });
 
   it("delegates AWS JSON 1.0 serialization and SigV4-ready request construction to the AWS runtime", async () => {

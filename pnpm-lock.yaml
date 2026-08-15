@@ -12,6 +12,9 @@ importers:
         specifier: 3.1111.0
         version: 3.1111.0
     devDependencies:
+      '@pontx/spec':
+        specifier: 1.0.0-beta.6
+        version: 1.0.0-beta.6
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -426,6 +429,9 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@pontx/spec@1.0.0-beta.6':
+    resolution: {integrity: sha512-KhH8XyuDC9KOW89wI4kamestTjTw45Rg76U1t4n71g3/22OVFm/NUJjAFkvrvqYND4hGkZjV5GH+i0MVtz09eg==}
+
   '@rollup/rollup-android-arm-eabi@4.62.4':
     resolution: {integrity: sha512-RrPokAb7dmbxFoeO3TloqHyOjgye8RkBhSqmp4aJMIex4c9r46ZstPnleDQOq1t46VOVjwIuwNogIqbodV1Vvg==}
     cpu: [arm]
@@ -714,6 +720,9 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
+  immer@10.2.0:
+    resolution: {integrity: sha512-d/+XTN3zfODyjr89gM3mPq1WNX2B8pYsu7eORitdwyA2sBubnTl3laYlBk4sXY5FUa5qTZGBDPJICVbvqzjlbw==}
+
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
@@ -731,6 +740,9 @@ packages:
   load-tsconfig@0.2.5:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   loupe@3.2.1:
     resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
@@ -751,6 +763,9 @@ packages:
     resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  oas-spec-ts@0.6.4:
+    resolution: {integrity: sha512-MYBgT1EBMhRZjET+thtijhGHxexlK5+eugS0r37B4/FUEFYTbjKuZLLoPK7DkQAtuCm8/ZMUYbYswz15oN9XUA==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -1312,6 +1327,12 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
+  '@pontx/spec@1.0.0-beta.6':
+    dependencies:
+      immer: 10.2.0
+      lodash: 4.18.1
+      oas-spec-ts: 0.6.4
+
   '@rollup/rollup-android-arm-eabi@4.62.4':
     optional: true
 
@@ -1595,6 +1616,8 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
+  immer@10.2.0: {}
+
   joycon@3.1.1: {}
 
   js-tokens@9.0.1: {}
@@ -1604,6 +1627,8 @@ snapshots:
   lines-and-columns@1.2.4: {}
 
   load-tsconfig@0.2.5: {}
+
+  lodash@4.18.1: {}
 
   loupe@3.2.1: {}
 
@@ -1627,6 +1652,8 @@ snapshots:
       thenify-all: 1.6.0
 
   nanoid@3.3.18: {}
+
+  oas-spec-ts@0.6.4: {}
 
   object-assign@4.1.1: {}
 
