@@ -50,6 +50,11 @@ for (const api of Object.values(spec.apis)) {
   assert.equal(api.rpc?.action, api.operationId);
   assert.equal(api.rpc?.method, "POST");
   assert.equal(api.rpc?.contentType, "application/x-amz-json-1.0");
+  assert.equal(
+    Object.hasOwn(api.metadata ?? {}, "execution"),
+    false,
+    `${api.operationId} must not carry a policy-based execution disablement`,
+  );
 }
 
 const { stdout: remoteBytes } = await execFileAsync("curl", ["--fail", "--location", "--silent", "--show-error", lock.source], {

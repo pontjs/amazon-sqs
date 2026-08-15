@@ -13,10 +13,13 @@ direct HTTP calls; this SDK deliberately uses the official AWS JSON runtime.
 ## Status
 
 The package is published to npm and Amazon SQS is available in the Pontx Hub
-catalog. The SDK mirrors the raw bytes of the canonical
+catalog. The web Playground currently has no AWS SigV4, region-selection, and
+endpoint-rules execution adapter, so it does not send SQS requests; this is an
+adapter limitation, not a policy-based Endpoint disablement. The SDK mirrors
+the raw bytes of the canonical
 `products/amazon-sqs/spec.pontx.json` from metadata commit
-`d24224857ed1c87e7ba92ba333742d980e44c977`; its SHA-256 is
-`47fe17acd3e47cf6ef7af669e9ec0e4b8bd308aaccff31ee5e15ee1c5b50687f`.
+`6bb03db8f5483a098275cb2c8c3611134e2dfe4d`; its SHA-256 is
+`8178389d28f320feff9faef22eb32eb1cf07a0b84a3064e7df6813f99ab80eeb`.
 Registry publication, SDK/CLI release evidence, and production verification
 are maintained together with this canonical contract.
 
