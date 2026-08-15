@@ -1,4 +1,6 @@
 import { spawnSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
@@ -9,6 +11,15 @@ function run(...args) {
 }
 
 describe("built CLI", () => {
+  it("is directly executable as a Node CLI", () => {
+    const cliPath = fileURLToPath(new URL("../../dist/bin/cli.cjs", import.meta.url));
+    const source = readFileSync(cliPath, "utf8");
+    assert.equal(source.startsWith("#!/usr/bin/env node\n"), true);
+    const result = spawnSync(cliPath, ["list", "apis"], { encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout.trim().split("\n").length, 23);
+  });
+
   it("lists every generated action", () => {
     const result = run("list", "apis");
     assert.equal(result.status, 0, result.stderr);
