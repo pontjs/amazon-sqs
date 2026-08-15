@@ -2,12 +2,12 @@
   "formatVersion": 1,
   "metadata": {
     "repository": "https://github.com/pontjs/pontx-api-metadata",
-    "commit": "d24224857ed1c87e7ba92ba333742d980e44c977",
+    "commit": "6bb03db8f5483a098275cb2c8c3611134e2dfe4d",
     "path": "products/amazon-sqs/spec.pontx.json"
   },
   "canonicalSpec": {
     "path": "contract/spec.pontx.json",
-    "sha256": "47fe17acd3e47cf6ef7af669e9ec0e4b8bd308aaccff31ee5e15ee1c5b50687f",
+    "sha256": "8178389d28f320feff9faef22eb32eb1cf07a0b84a3064e7df6813f99ab80eeb",
     "pontx": "2.1",
     "style": "RPC",
     "protocol": "aws-json-1.0",
