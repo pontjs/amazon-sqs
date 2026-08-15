@@ -12,13 +12,13 @@ direct HTTP calls; this SDK deliberately uses the official AWS JSON runtime.
 
 ## Status
 
-Release candidate only. It is not published to npm and Amazon SQS is not yet a
-Pontx Hub catalog API. The SDK mirrors the raw bytes of the canonical
+The package is published to npm and Amazon SQS is available in the Pontx Hub
+catalog. The SDK mirrors the raw bytes of the canonical
 `products/amazon-sqs/spec.pontx.json` from metadata commit
 `d24224857ed1c87e7ba92ba333742d980e44c977`; its SHA-256 is
 `47fe17acd3e47cf6ef7af669e9ec0e4b8bd308aaccff31ee5e15ee1c5b50687f`.
-The public catalog will be updated only after the registry package, SDK/CLI
-release evidence, and production verification are all complete.
+Registry publication, SDK/CLI release evidence, and production verification
+are maintained together with this canonical contract.
 
 ## SDK
 

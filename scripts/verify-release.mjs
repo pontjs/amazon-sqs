@@ -18,7 +18,7 @@ for (const [name, version] of Object.entries(packageJson.dependencies ?? {})) {
 const { stdout } = await execFileAsync("npm", ["pack", "--dry-run", "--json"], { encoding: "utf8" });
 const packed = JSON.parse(stdout)[0];
 const files = new Set(packed.files.map((file) => file.path));
-for (const required of ["dist/index.js", "dist/index.cjs", "dist/index.d.ts", "dist/bin/cli.cjs", "contract/spec.pontx.json", "contract/pontx.lock.json", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "package.json"]) {
+for (const required of ["dist/index.js", "dist/index.cjs", "dist/index.d.ts", "dist/bin/cli.cjs", "dist/bin/api-lock.json", "contract/spec.pontx.json", "contract/pontx.lock.json", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "package.json"]) {
   assert.ok(files.has(required), `npm tarball misses ${required}`);
 }
 for (const file of files) {
