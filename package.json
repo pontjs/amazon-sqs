@@ -1,0 +1,67 @@
+{
+  "name": "@pontx/amazon-sqs",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.22.0",
+  "description": "Type-safe Amazon SQS SDK and safety-first CLI generated from a pinned AWS Smithy contract",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "bin": {
+    "pontx-amazon-sqs": "./dist/bin/cli.cjs"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts && tsup src/cli.ts --format cjs --out-dir dist/bin",
+    "contract:verify": "node scripts/verify-contract.mjs",
+    "generate:check": "node scripts/generate-actions.mjs --check",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run test/unit",
+    "test:e2e": "node --test test/e2e/*.test.mjs",
+    "quality": "pnpm contract:verify && pnpm generate:check && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+    "prepublishOnly": "pnpm quality"
+  },
+  "keywords": [
+    "amazon",
+    "aws",
+    "sqs",
+    "smithy",
+    "sdk",
+    "sigv4",
+    "queue"
+  ],
+  "author": "Pontx Contributors",
+  "homepage": "https://pontx.dev/en/sdks/amazon-sqs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pontjs/amazon-sqs.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "3.1111.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.1.1"
+  }
+}
