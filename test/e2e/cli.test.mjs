@@ -11,6 +11,15 @@ function run(...args) {
 }
 
 describe("built CLI", () => {
+  it("packages the complete canonical action lock alongside the CLI", () => {
+    const lock = JSON.parse(readFileSync(new URL("../../dist/bin/api-lock.json", import.meta.url), "utf8"));
+    assert.equal(lock.style, "RPC");
+    assert.equal(Object.keys(lock.apis).length, 23);
+    assert.equal(Object.hasOwn(lock.apis, "ListQueues"), true);
+    assert.equal(Object.hasOwn(lock.apis.ListQueues, "method"), false);
+    assert.equal(Object.hasOwn(lock.apis.ListQueues, "path"), false);
+  });
+
   it("is directly executable as a Node CLI", () => {
     const cliPath = fileURLToPath(new URL("../../dist/bin/cli.cjs", import.meta.url));
     const source = readFileSync(cliPath, "utf8");
