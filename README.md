@@ -1,5 +1,7 @@
 # @pontx/amazon-sqs
 
+[Pontx Hub SDK guide](https://pontx.dev/en/sdks/amazon-sqs)
+
 Type-safe Amazon SQS SDK and preview-first CLI generated from a pinned AWS
 Smithy contract. This is a Pontx community SDK, not an AWS product.
 
